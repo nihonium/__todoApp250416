@@ -6,11 +6,11 @@
   "homepage": "https://nihonium.github.io/__todoApp250416/",
   "scripts": {
     "dev": "vite --open --port 3000",
+    "build": "vite build",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint ."
   },
   "dependencies": {
     "react": "^19.0.0",
