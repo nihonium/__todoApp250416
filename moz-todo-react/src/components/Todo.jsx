@@ -19,7 +19,7 @@ function Todo(props) {
     <form className="stack-small" onSubmit={handleSubmit}>
       <div className="form-group">
         <label className="todo-label" htmlFor={props.id}>
-          New name for {props.name}
+          現在のタスク名：{props.name}
         </label>
         <input
             id={props.id}
@@ -35,12 +35,12 @@ function Todo(props) {
           className="btn todo-cancel"
           onClick={() => setEditing(false)}
         >
-          Cancel
-          <span className="visually-hidden">renaming {props.name}</span>
+          キャンセル
+          <span className="visually-hidden">名前を変更する： {props.name}</span>
         </button>
         <button type="submit" className="btn btn__primary todo-edit">
-          Save
-          <span className="visually-hidden">new name for {props.name}</span>
+          保存
+          <span className="visually-hidden">現在のタスク名：{props.name}</span>
         </button>
       </div>
     </form>

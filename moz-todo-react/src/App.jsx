@@ -1,5 +1,6 @@
-// 【次回ここから】
-// https://developer.mozilla.org/ja/docs/Learn_web_development/Core/Frameworks_libraries/React_interactivity_filtering_conditional_rendering#%E6%9D%A1%E4%BB%B6%E4%BB%98%E3%81%8D%E3%83%AC%E3%83%B3%E3%83%80%E3%83%AA%E3%83%B3%E3%82%B0
+// * 参考サイト
+// * https://developer.mozilla.org/ja/docs/Learn_web_development/Core/Frameworks_libraries/React_getting_started
+// * https://qiita.com/toraaa/items/20a68915227a08820805
 
 import { nanoid } from "nanoid";
 import { useState } from "react";
@@ -8,11 +9,11 @@ import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
 
 function App(props) {
-  const [filter, setFilter] = useState("All");
+  const [filter, setFilter] = useState("すべて");
   const FILTER_MAP = {
-    All: () => true,
-    Active: (task) => !task.completed,
-    Completed: (task) => task.completed,
+    "すべて": () => true,
+    "残タスク": (task) => !task.completed,
+    "完了タスク": (task) => task.completed,
   };
   const FILTER_NAMES = Object.keys(FILTER_MAP);
 
@@ -74,8 +75,9 @@ function App(props) {
     />
   ));
 
-  const tasksNoun = (taskList.length !== 1) ? "tasks" : "task";
-  const headingText = `${taskList.length} ${tasksNoun} remaining`;
+  // const tasksNoun = (taskList.length !== 1) ? "tasks" : "task";
+  const tasksNoun = (taskList.length !== 0) ? "つ" : "";
+  const headingText = `残り ${taskList.length} ${tasksNoun}`;
 
   return (
     <div className="todoapp stack-large">
