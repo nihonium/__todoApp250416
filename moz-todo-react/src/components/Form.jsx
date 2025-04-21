@@ -1,11 +1,10 @@
 import { useState } from "react";
-// import { useForm } from 'react-hook-form';
 
 function Form(props) {
     const [name, setName] = useState("");
-    const [nameError, setNameError] = useState('')
+    const [nameError, setNameError] = useState('');
 
-    const validateName = (value) => {
+    const validateForm = (value) => {
         if (!value) return '値を入力してください。';
         if (value.length > 15) return '15文字以内で入力してください';
         return '';
@@ -14,22 +13,19 @@ function Form(props) {
     function handleChange(event) {
         const value = event.target.value;
         setName(value);
-        setNameError(validateName(value));
+        setNameError(validateForm(value));
     }
 
     const handleBlur = (e) => {
-        const error = validateName(e.target.value);
+        const error = validateForm(e.target.value);
         setNameError(error);
         if (error) return;
     };
 
     function handleSubmit(event) {
         event.preventDefault();
-        const error = validateName(name);
-        if (error) {
-            setNameError(error);
-            return;
-        }
+        const error = validateForm(name);
+        if (error) return setNameError(error);
         props.addTask(name);
         setName("");
         setNameError('');
@@ -51,7 +47,7 @@ function Form(props) {
                 value={name}
                 onBlur={handleBlur}
                 onChange={handleChange}
-                placeholder="タスクを入力してください"
+                placeholder="15文字以内で入力してください"
             />
             {nameError && <p>{nameError}</p>}
             <button type="submit" className="btn btn__primary btn__lg" disabled={nameError}>

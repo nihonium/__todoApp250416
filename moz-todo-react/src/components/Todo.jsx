@@ -3,13 +3,30 @@ import { useState } from "react";
 function Todo(props) {
   const [isEditing, setEditing] = useState(false);
   const [newName, setNewName] = useState("");
+  const [nameError, setNameError] = useState('');
+
+  const validateForm = (value) => {
+      if (!value) return '値を入力してください。';
+      if (value.length > 15) return '15文字以内で入力してください';
+      return '';
+  }
 
   function handleChange(e) {
     setNewName(e.target.value);
+    setName(value);
+    setNameError(validateForm(value));
   }
+
+  const handleBlur = (e) => {
+      const error = validateForm(e.target.value);
+      setNameError(error);
+      if (error) return;
+  };
 
   function handleSubmit(e) {
     e.preventDefault();
+    const error = validateForm(newName);
+    if (error) return setNameError(error);
     props.editTask(props.id, newName);
     setNewName("");
     setEditing(false);
@@ -26,8 +43,11 @@ function Todo(props) {
             className="todo-text"
             type="text"
             value={newName}
+            onBlur={handleBlur}
             onChange={handleChange}
+            placeholder="15文字以内で入力してください"
         />
+        {nameError && <p>{nameError}</p>}
       </div>
       <div className="btn-group">
         <button
