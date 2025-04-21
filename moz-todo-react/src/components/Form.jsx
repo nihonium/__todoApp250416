@@ -1,14 +1,9 @@
 import { useState } from "react";
+import validateForm from "./validateForm";
 
 function Form(props) {
     const [name, setName] = useState("");
     const [nameError, setNameError] = useState('');
-
-    const validateForm = (value) => {
-        if (!value) return '値を入力してください。';
-        if (value.length > 15) return '15文字以内で入力してください';
-        return '';
-    }
 
     function handleChange(event) {
         const value = event.target.value;
