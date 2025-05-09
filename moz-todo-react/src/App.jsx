@@ -38,16 +38,19 @@ function App(props) {
     });
 
     setTasks(updatedTasks);
+    localStorage.setItem("tasks", JSON.stringify(updatedTasks));
   }
 
   function deleteTask(id) {
     const remainingTasks = tasks.filter((task) => id !== task.id);
     setTasks(remainingTasks);
+    localStorage.setItem("tasks", JSON.stringify(remainingTasks));
   }
 
   function addTask(name) {
     const newTask = { id: `todo-${nanoid()}`, name, completed: false };
     setTasks([...tasks, newTask]);
+    localStorage.setItem("tasks", JSON.stringify([...tasks, newTask]));
   };
 
   function editTask(id, newName) {
@@ -58,6 +61,7 @@ function App(props) {
       return task;
     });
     setTasks(editedTaskList);
+    localStorage.setItem("tasks", JSON.stringify(editedTaskList));
   }
 
   const [tasks, setTasks] = useState(props.tasks);
