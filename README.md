@@ -1,7 +1,7 @@
 # React TODOアプリ
 
 このアプリは、[MDN Web Docs の React チュートリアル](https://developer.mozilla.org/ja/docs/Learn_web_development/Core/Frameworks_libraries/React_getting_started) を参考に作成した TODO アプリです。  
-基本的な機能に加えて、**空入力のバリデーション**および**文字数制限のバリデーション**を追加しています。
+基本的な機能に加えて、**バリデーション**および**データのブラウザ保持**を追加しています。
 
 ## 🌐 デモ
 
@@ -12,6 +12,8 @@
 - タスクの追加 / 削除
 - 空のタスク入力を禁止
 - 入力文字数制限（最大15文字まで）
+- 入力タスクをブラウザに保持（localStorage）
+ - リロードやブラウザを閉じてもタスクが消えずに残ります
 
 ## 🛠 使用技術
 

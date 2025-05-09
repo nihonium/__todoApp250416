@@ -79,9 +79,8 @@ function App(props) {
     />
   ));
 
-  // const tasksNoun = (taskList.length !== 1) ? "tasks" : "task";
-  const tasksNoun = (taskList.length !== 0) ? "つ" : "";
-  const headingText = `残り ${taskList.length} ${tasksNoun}`;
+  // タスクの数に応じて、名詞を変更する
+  const headingText = (taskList.length !== 0) ? `残り ${taskList.length} つ` : "タスクはありません";
 
   return (
     <div className="todoapp stack-large">
