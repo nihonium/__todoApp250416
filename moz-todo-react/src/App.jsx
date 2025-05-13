@@ -72,6 +72,7 @@ function App(props) {
       id={task.id}
       name={task.name}
       completed={task.completed}
+      dueDate={task.dueDate}
       key={task.id}
       toggleTaskCompleted={toggleTaskCompleted}
       deleteTask={deleteTask}
@@ -80,7 +81,7 @@ function App(props) {
   ));
 
   // タスクの数に応じて、名詞を変更する
-  const headingText = (taskList.length !== 0) ? `残り ${taskList.length} つ` : "タスクはありません";
+  const headingText = (taskList.length !== 0) ? `${taskList.length} つ` : "タスクはありません";
 
   return (
     <div className="todoapp stack-large">

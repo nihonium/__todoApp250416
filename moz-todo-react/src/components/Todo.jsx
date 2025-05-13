@@ -71,6 +71,9 @@ function Todo(props) {
         />
         <label className="todo-label" htmlFor={props.id}>
           {props.name}
+          <span className="todo-label__due-date">
+            {props.dueDate ? `期限：${props.dueDate}` : ""}
+          </span>
         </label>
       </div>
       <div className="btn-group">
