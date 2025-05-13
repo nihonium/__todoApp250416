@@ -13,6 +13,14 @@ function Form(props) {
     }
 
     function handleChangeDate(event) {
+        const placeholder = document.querySelector('#placeholder');
+        // プレースホルダーの表示/非表示を切り替え
+        if (event.target.value) {
+            placeholder.style.display = 'none';
+        } else {
+            placeholder.style.display = 'block';
+        }
+
         const value = event.target.value;
         setDueDate(value);
     }
@@ -24,8 +32,7 @@ function Form(props) {
     };
 
     const handleBlurDate = (e) => {
-        const error = validateForm(e.target.value);
-        if (error) return;
+        console.log("Date input blurred");
     };
 
     function handleSubmit(event) {
@@ -37,6 +44,17 @@ function Form(props) {
         setNameError('');
         setDueDate("");
     }
+
+    // 日付入力欄のプレースホルダー設定
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('DOMContentLoaded');
+        const placeholder = document.querySelector('#placeholder');
+        const dateInput = document.querySelector('#new-date-input');
+
+        dateInput.addEventListener('focus', () => {
+            placeholder.style.display = 'none';
+        });
+    });
 
     return (
         <form onSubmit={handleSubmit}>
@@ -54,7 +72,7 @@ function Form(props) {
                 value={name}
                 onBlur={handleBlurName}
                 onChange={handleChangeName}
-                placeholder="15文字以内で入力してください"
+                placeholder="タスクを15文字以内で入力してください"
             />
             <input
                 type="date"
@@ -63,9 +81,9 @@ function Form(props) {
                 value={dueDate}
                 onBlur={handleBlurDate}
                 onChange={handleChangeDate}
-                placeholder="任意：期限を選択してください"
                 min={new Date().toISOString().split("T")[0]} // 今日の日付を最小値に設定
             />
+            <span id="placeholder">任意で期限を指定できます</span>
             {nameError && <p>{nameError}</p>}
             <button type="submit" className="btn btn__primary btn__lg" disabled={nameError}>
                 追加

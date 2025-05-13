@@ -42,7 +42,7 @@ function Todo(props) {
             value={newName}
             onBlur={handleBlur}
             onChange={handleChange}
-            placeholder="15文字以内で入力してください"
+            placeholder="タスクを15文字以内で入力してください"
         />
         {nameError && <p>{nameError}</p>}
       </div>
@@ -62,6 +62,9 @@ function Todo(props) {
       </div>
     </form>
   );
+
+  // 期限切れ処理
+  // 過去の日付が設定されている場合、赤色で表示
   const isOverdue = new Date(props.dueDate) < new Date() && !props.completed;
 
   const viewTemplate = (
