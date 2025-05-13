@@ -5,6 +5,8 @@ function Todo(props) {
   const [isEditing, setEditing] = useState(false);
   const [newName, setNewName] = useState("");
   const [nameError, setNameError] = useState('');
+  const [dueDate, setDueDate] = useState("");
+  const [dueDateError, setDueDateError] = useState('');
 
   function handleChange(e) {
     setNewName(e.target.value);
@@ -22,8 +24,9 @@ function Todo(props) {
     e.preventDefault();
     const error = validateForm(newName);
     if (error) return setNameError(error);
-    props.editTask(props.id, newName);
+    props.editTask(props.id, newName, dueDate);
     setNewName("");
+    setDueDate("");
     setEditing(false);
   }
 

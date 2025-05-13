@@ -35,7 +35,7 @@ function Form(props) {
         event.preventDefault();
         const error = validateForm(name);
         if (error) return setNameError(error);
-        props.addTask(name);
+        props.addTask(name, dueDate);
         setName("");
         setNameError('');
         setDueDate("");

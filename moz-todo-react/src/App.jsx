@@ -47,8 +47,8 @@ function App(props) {
     localStorage.setItem("tasks", JSON.stringify(remainingTasks));
   }
 
-  function addTask(name) {
-    const newTask = { id: `todo-${nanoid()}`, name, completed: false };
+  function addTask(name, dueDate) {
+    const newTask = { id: `todo-${nanoid()}`, name, completed: false, dueDate};
     setTasks([...tasks, newTask]);
     localStorage.setItem("tasks", JSON.stringify([...tasks, newTask]));
   };
