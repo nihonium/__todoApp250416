@@ -299,3 +299,11 @@ body {
   opacity: 1;
 }
 /* チェックボックスのスタイル終了 */
+
+.todo-label__due-date {
+  display: block;
+  color: #565656;
+  font-size: 1.4rem;
+  font-weight: 400;
+  margin-top: 0.8rem;
+}

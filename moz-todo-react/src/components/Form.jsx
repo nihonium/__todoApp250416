@@ -5,7 +5,6 @@ function Form(props) {
     const [name, setName] = useState("");
     const [nameError, setNameError] = useState('');
     const [dueDate, setDueDate] = useState("");
-    const [dueDateError, setDueDateError] = useState('');
 
     function handleChangeName(event) {
         const value = event.target.value;
@@ -16,7 +15,6 @@ function Form(props) {
     function handleChangeDate(event) {
         const value = event.target.value;
         setDueDate(value);
-        setDueDateError(validateForm(value));
     }
 
     const handleBlurName = (e) => {
@@ -27,7 +25,6 @@ function Form(props) {
 
     const handleBlurDate = (e) => {
         const error = validateForm(e.target.value);
-        setDueDateError(error);
         if (error) return;
     };
 
@@ -39,7 +36,6 @@ function Form(props) {
         setName("");
         setNameError('');
         setDueDate("");
-        setDueDateError('');
     }
 
     return (

@@ -6,7 +6,6 @@ function Todo(props) {
   const [newName, setNewName] = useState("");
   const [nameError, setNameError] = useState('');
   const [dueDate, setDueDate] = useState("");
-  const [dueDateError, setDueDateError] = useState('');
 
   function handleChange(e) {
     setNewName(e.target.value);
@@ -63,6 +62,8 @@ function Todo(props) {
       </div>
     </form>
   );
+  const isOverdue = new Date(props.dueDate) < new Date() && !props.completed;
+
   const viewTemplate = (
     <div className="stack-small">
       <div className="c-cb">
@@ -74,8 +75,8 @@ function Todo(props) {
         />
         <label className="todo-label" htmlFor={props.id}>
           {props.name}
-          <span className="todo-label__due-date">
-            {props.dueDate ? `期限：${props.dueDate}` : ""}
+          <span className="todo-label__due-date" style={{color: isOverdue ? 'red' : 'inherit'}}>
+            {props.dueDate ? `期限：${props.dueDate}` : "期限なし"}
           </span>
         </label>
       </div>
