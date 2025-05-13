@@ -14,14 +14,13 @@ function Form(props) {
 
     function handleChangeDate(event) {
         const placeholder = document.querySelector('#placeholder');
+        const value = event.target.value;
         // プレースホルダーの表示/非表示を切り替え
-        if (event.target.value) {
+        if (value) {
             placeholder.style.display = 'none';
         } else {
             placeholder.style.display = 'block';
         }
-
-        const value = event.target.value;
         setDueDate(value);
     }
 
@@ -29,10 +28,6 @@ function Form(props) {
         const error = validateForm(e.target.value);
         setNameError(error);
         if (error) return;
-    };
-
-    const handleBlurDate = (e) => {
-        console.log("Date input blurred");
     };
 
     function handleSubmit(event) {
@@ -43,18 +38,8 @@ function Form(props) {
         setName("");
         setNameError('');
         setDueDate("");
+        document.querySelector('#placeholder').style.display = 'block'; // プレースホルダーを表示
     }
-
-    // 日付入力欄のプレースホルダー設定
-    document.addEventListener('DOMContentLoaded', () => {
-        console.log('DOMContentLoaded');
-        const placeholder = document.querySelector('#placeholder');
-        const dateInput = document.querySelector('#new-date-input');
-
-        dateInput.addEventListener('focus', () => {
-            placeholder.style.display = 'none';
-        });
-    });
 
     return (
         <form onSubmit={handleSubmit}>
@@ -79,7 +64,6 @@ function Form(props) {
                 id="new-date-input"
                 className="input input__lg"
                 value={dueDate}
-                onBlur={handleBlurDate}
                 onChange={handleChangeDate}
                 min={new Date().toISOString().split("T")[0]} // 今日の日付を最小値に設定
             />
