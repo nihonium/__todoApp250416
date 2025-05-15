@@ -307,3 +307,22 @@ body {
   font-weight: 400;
   margin-top: 0.8rem;
 }
+
+.input-wrap {
+  position: relative;
+  z-index: 1;
+}
+
+.placeholder {
+  position: absolute;
+  z-index: 2;
+  color: #565656;
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.25;
+  padding-left: 40px;
+  padding: 20px;
+  top: 5px;
+  left: 5px;
+  background-color: #fff;
+}

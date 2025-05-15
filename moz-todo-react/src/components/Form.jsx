@@ -59,15 +59,22 @@ function Form(props) {
                 onChange={handleChangeName}
                 placeholder="タスクを15文字以内で入力してください"
             />
-            <input
-                type="date"
-                id="new-date-input"
-                className="input input__lg"
-                value={dueDate}
-                onChange={handleChangeDate}
-                min={new Date().toISOString().split("T")[0]} // 今日の日付を最小値に設定
-            />
-            <span id="placeholder">任意で期限を指定できます</span>
+            <div className="input-wrap">
+                <input
+                    type="date"
+                    id="new-date-input"
+                    className="input input__lg"
+                    value={dueDate}
+                    onChange={handleChangeDate}
+                    min={new Date().toISOString().split("T")[0]} // 今日の日付を最小値に設定
+                />
+                <span
+                    id="placeholder"
+                    className="placeholder"
+                >
+                    任意で期限を指定できます
+                </span>
+            </div>
             {nameError && <p>{nameError}</p>}
             <button type="submit" className="btn btn__primary btn__lg" disabled={nameError}>
                 追加
