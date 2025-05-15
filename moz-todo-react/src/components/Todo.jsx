@@ -5,7 +5,7 @@ function Todo(props) {
   const [isEditing, setEditing] = useState(false);
   const [newName, setNewName] = useState("");
   const [nameError, setNameError] = useState('');
-  const [dueDate, setDueDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState('');
 
   function handleChange(e) {
     setNewName(e.target.value);
@@ -23,9 +23,9 @@ function Todo(props) {
     e.preventDefault();
     const error = validateForm(newName);
     if (error) return setNameError(error);
-    props.editTask(props.id, newName, dueDate);
+    props.editTask(props.id, newName, selectedDate);
     setNewName("");
-    setDueDate("");
+    setSelectedDate("");
     setEditing(false);
   }
 
@@ -65,7 +65,7 @@ function Todo(props) {
 
   // 期限切れ処理
   // 過去の日付が設定されている場合、赤色で表示
-  const isOverdue = new Date(props.dueDate) < new Date() && !props.completed;
+  const isOverdue = new Date(props.selectedDate) < new Date() && !props.completed;
 
   const viewTemplate = (
     <div className="stack-small">
@@ -79,7 +79,7 @@ function Todo(props) {
         <label className="todo-label" htmlFor={props.id}>
           {props.name}
           <span className="todo-label__due-date" style={{color: isOverdue ? 'red' : 'inherit'}}>
-            {props.dueDate ? `期限：${props.dueDate}` : "期限なし"}
+            {props.selectedDate ? `期限：${props.selectedDate}` : "期限なし"}
           </span>
         </label>
       </div>

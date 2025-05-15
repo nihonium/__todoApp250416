@@ -47,8 +47,8 @@ function App(props) {
     localStorage.setItem("tasks", JSON.stringify(remainingTasks));
   }
 
-  function addTask(name, dueDate) {
-    const newTask = { id: `todo-${nanoid()}`, name, completed: false, dueDate};
+  function addTask(name, selectedDate) {
+    const newTask = { id: `todo-${nanoid()}`, name, completed: false, selectedDate};
     setTasks([...tasks, newTask]);
     localStorage.setItem("tasks", JSON.stringify([...tasks, newTask]));
   };
@@ -72,7 +72,7 @@ function App(props) {
       id={task.id}
       name={task.name}
       completed={task.completed}
-      dueDate={task.dueDate}
+      selectedDate={task.selectedDate}
       key={task.id}
       toggleTaskCompleted={toggleTaskCompleted}
       deleteTask={deleteTask}

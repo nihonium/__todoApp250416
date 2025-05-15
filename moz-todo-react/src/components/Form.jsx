@@ -1,10 +1,13 @@
 import { useState } from "react";
 import validateForm from "./validateForm";
+import DatePicker from "react-datepicker";
+import { ja } from 'date-fns/locale';
+import "react-datepicker/dist/react-datepicker.css";
 
 function Form(props) {
     const [name, setName] = useState("");
     const [nameError, setNameError] = useState('');
-    const [dueDate, setDueDate] = useState("");
+    const [selectedDate, setSelectedDate] = useState('');
 
     function handleChangeName(event) {
         const value = event.target.value;
@@ -13,15 +16,8 @@ function Form(props) {
     }
 
     function handleChangeDate(event) {
-        const placeholder = document.querySelector('#placeholder');
         const value = event.target.value;
-        // プレースホルダーの表示/非表示を切り替え
-        if (value) {
-            placeholder.style.display = 'none';
-        } else {
-            placeholder.style.display = 'block';
-        }
-        setDueDate(value);
+        setSelectedDate(value);
     }
 
     const handleBlurName = (e) => {
@@ -34,11 +30,10 @@ function Form(props) {
         event.preventDefault();
         const error = validateForm(name);
         if (error) return setNameError(error);
-        props.addTask(name, dueDate);
+        props.addTask(name, selectedDate);
         setName("");
         setNameError('');
-        setDueDate("");
-        document.querySelector('#placeholder').style.display = 'block'; // プレースホルダーを表示
+        setSelectedDate("");
     }
 
     return (
@@ -59,22 +54,17 @@ function Form(props) {
                 onChange={handleChangeName}
                 placeholder="タスクを15文字以内で入力してください"
             />
-            <div className="input-wrap">
-                <input
-                    type="date"
-                    id="new-date-input"
-                    className="input input__lg"
-                    value={dueDate}
-                    onChange={handleChangeDate}
-                    min={new Date().toISOString().split("T")[0]} // 今日の日付を最小値に設定
-                />
-                <span
-                    id="placeholder"
-                    className="placeholder"
-                >
-                    任意で期限を指定できます
-                </span>
-            </div>
+            <DatePicker
+                id="new-date-input"
+                className="input input__lg"
+                name="date"
+                selected={selectedDate}
+                onChange={(date) => setSelectedDate(date)}
+                dateFormat="yyyy/MM/dd"
+                locale={ja}
+                minDate={new Date()}
+                placeholderText="任意で期限を指定できます"
+            />
             {nameError && <p>{nameError}</p>}
             <button type="submit" className="btn btn__primary btn__lg" disabled={nameError}>
                 追加
