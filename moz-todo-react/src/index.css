@@ -52,7 +52,21 @@ button,
 input {
   overflow: visible;
 }
-input[type="text"] {
+input[type="date"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  min-height: calc(1em + 40px);
+  padding: 20px;
+  background: transparent;
+  color: initial;
+}
+input[type="date"]::-webkit-date-and-time-value {
+  text-align: left;
+}
+
+input[type="text"],
+input[type="date"] {
   border-radius: 0;
 }
 body {
@@ -76,7 +90,8 @@ body {
 }
 /* リセット終了 */
 /* グローバルスタイル */
-.form-group > input[type="text"] {
+.form-group > input[type="text"],
+.form-group > input[type="date"] {
   display: inline-block;
   margin-top: 0.4rem;
 }
@@ -320,9 +335,9 @@ body {
   font-size: 1.6rem;
   font-weight: 400;
   line-height: 1.25;
-  padding-left: 40px;
-  padding: 20px;
-  top: 5px;
+  padding-left: 20px;
+  top: 0;
+  bottom: 0;
   left: 5px;
-  background-color: #fff;
+  margin: auto;
 }
