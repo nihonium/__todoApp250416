@@ -1,13 +1,14 @@
 import { useState } from "react";
 import validateForm from "./validateForm";
-import DatePicker from "react-datepicker";
+import DatePicker, { registerLocale } from "react-datepicker";
 import { ja } from 'date-fns/locale';
 import "react-datepicker/dist/react-datepicker.css";
 
 function Form(props) {
     const [name, setName] = useState("");
     const [nameError, setNameError] = useState('');
-    const [selectedDate, setSelectedDate] = useState('');
+    const [selectedDate, setSelectedDate] = useState(null);
+    registerLocale('ja', ja);
 
     function handleChangeName(event) {
         const value = event.target.value;
@@ -30,10 +31,18 @@ function Form(props) {
         event.preventDefault();
         const error = validateForm(name);
         if (error) return setNameError(error);
-        props.addTask(name, selectedDate);
+        const formattedDate = selectedDate
+        ? selectedDate.toLocaleDateString("ja-JP", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            weekday: "short",
+        })
+        : "";
+        props.addTask(name, formattedDate);
         setName("");
         setNameError('');
-        setSelectedDate("");
+        setSelectedDate(null);
     }
 
     return (
@@ -58,6 +67,7 @@ function Form(props) {
                 id="new-date-input"
                 className="input input__lg"
                 name="date"
+                autoComplete="off"
                 selected={selectedDate}
                 onChange={(date) => setSelectedDate(date)}
                 dateFormat="yyyy/MM/dd"

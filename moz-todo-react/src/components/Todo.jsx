@@ -5,7 +5,7 @@ function Todo(props) {
   const [isEditing, setEditing] = useState(false);
   const [newName, setNewName] = useState("");
   const [nameError, setNameError] = useState('');
-  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedDate, setSelectedDate] = useState(null);
 
   function handleChange(e) {
     setNewName(e.target.value);
@@ -25,7 +25,7 @@ function Todo(props) {
     if (error) return setNameError(error);
     props.editTask(props.id, newName, selectedDate);
     setNewName("");
-    setSelectedDate("");
+    setSelectedDate(null);
     setEditing(false);
   }
 
@@ -65,7 +65,25 @@ function Todo(props) {
 
   // 期限切れ処理
   // 過去の日付が設定されている場合、赤色で表示
-  const isOverdue = new Date(props.selectedDate) < new Date() && !props.completed;
+  function isOverdueSet() {
+    // 曜日を除いて日付だけを抽出する（正規表現使用）
+    const cleanedDateStr = props.selectedDate.replace(/年|月/g, '-').replace(/日.*$/, '').replace(/[^\d-]/g, '');
+
+    // "2025-5-31" → "2025-05-31" に補正して ISO フォーマットに近づける
+    const [year, month, day] = cleanedDateStr.split('-').map(Number);
+    const formattedDateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+    const targetDate = new Date(formattedDateStr);
+    const today = new Date();
+
+    // 時間を無視して日付だけで比較するため、両方の時刻を0時にリセット
+    targetDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    // 過去の日付かどうかを判定
+    const isOverdue = targetDate < today && !props.completed;
+    return isOverdue;
+  }
 
   const viewTemplate = (
     <div className="stack-small">
@@ -78,7 +96,7 @@ function Todo(props) {
         />
         <label className="todo-label" htmlFor={props.id}>
           {props.name}
-          <span className="todo-label__due-date" style={{color: isOverdue ? 'red' : 'inherit'}}>
+          <span className="todo-label__due-date" style={{color: isOverdueSet() ? 'red' : 'inherit'}}>
             {props.selectedDate ? `期限：${props.selectedDate}` : "期限なし"}
           </span>
         </label>
