@@ -328,3 +328,17 @@ body {
   position: relative;
   z-index: 1;
 }
+
+/* react-datepickerのスタイル */
+#root {
+  .react-datepicker__current-month {
+    font-size: 1.7rem;
+  }
+
+  .react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
+    font-size: 1.35rem;
+    margin:.5rem;
+    width: 3rem;
+    line-height:3rem;
+  }
+}
