@@ -16,9 +16,8 @@ function Form(props) {
         setNameError(validateForm(value));
     }
 
-    function handleChangeDate(event) {
-        const value = event.target.value;
-        setSelectedDate(value);
+    function handleChangeDate(date) {
+        setSelectedDate(date);
     }
 
     const handleBlurName = (e) => {
@@ -69,7 +68,7 @@ function Form(props) {
                 name="date"
                 autoComplete="off"
                 selected={selectedDate}
-                onChange={(date) => setSelectedDate(date)}
+                onChange={handleChangeDate}
                 dateFormat="yyyy/MM/dd"
                 locale={ja}
                 minDate={new Date()}
