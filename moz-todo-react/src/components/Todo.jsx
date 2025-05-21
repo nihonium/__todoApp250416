@@ -1,5 +1,8 @@
 import { useState } from "react";
 import validateForm from "./validateForm";
+import DatePicker, { registerLocale } from "react-datepicker";
+import { ja } from 'date-fns/locale';
+import "react-datepicker/dist/react-datepicker.css";
 
 function Todo(props) {
   const [isEditing, setEditing] = useState(false);
@@ -9,8 +12,11 @@ function Todo(props) {
 
   function handleChange(e) {
     setNewName(e.target.value);
-    setName(value);
-    setNameError(validateForm(value));
+    setNameError(validateForm(e.target.value));
+  }
+
+  function handleChangeDate(date) {
+    setSelectedDate(date);
   }
 
   const handleBlur = (e) => {
@@ -23,7 +29,15 @@ function Todo(props) {
     e.preventDefault();
     const error = validateForm(newName);
     if (error) return setNameError(error);
-    props.editTask(props.id, newName, selectedDate);
+    const newSelectedDate = selectedDate
+      ? selectedDate.toLocaleDateString("ja-JP", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          weekday: "short",
+      })
+      : "";
+    props.editTask(props.id, newName, newSelectedDate);
     setNewName("");
     setSelectedDate(null);
     setEditing(false);
@@ -33,7 +47,8 @@ function Todo(props) {
     <form className="stack-small" onSubmit={handleSubmit}>
       <div className="form-group">
         <label className="todo-label" htmlFor={props.id}>
-          現在のタスク名：{props.name}
+          タスク名：{props.name}<br/>
+          期限：{props.selectedDate ? props.selectedDate : "なし"}
         </label>
         <input
           id={props.id}
@@ -43,6 +58,18 @@ function Todo(props) {
           onBlur={handleBlur}
           onChange={handleChange}
           placeholder="タスクを15文字以内で入力してください"
+        />
+        <DatePicker
+          id={props.id + "new-date-input"}
+          className="input input__edited-date"
+          name="date"
+          autoComplete="off"
+          selected={selectedDate}
+          onChange={handleChangeDate}
+          dateFormat="yyyy/MM/dd"
+          locale={ja}
+          minDate={new Date()}
+          placeholderText="期限を変更できます"
         />
         {nameError && <p>{nameError}</p>}
       </div>

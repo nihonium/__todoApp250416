@@ -56,10 +56,10 @@ function App(props) {
     localStorage.setItem("tasks", JSON.stringify([...tasks, newTask]));
   };
 
-  function editTask(id, newName) {
+  function editTask(id, newName, newSelectedDate) {
     const editedTaskList = tasks.map((task) => {
       if (id === task.id) {
-        return { ...task, name: newName};
+        return { ...task, name: newName, selectedDate: newSelectedDate};
       }
       return task;
     });
