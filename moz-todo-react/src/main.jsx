@@ -2,7 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
-
+import ErrorBoundary from "./components/ErrorBoundary";
 const DATA = [];
 
 if (localStorage.getItem('tasks') === null) {
@@ -17,6 +17,9 @@ if (localStorage.getItem('tasks') === null) {
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App tasks={DATA} />
+    <ErrorBoundary>
+      <App tasks={DATA} />
+    </ErrorBoundary>
   </StrictMode>,
+  document.getElementById('root')
 )
