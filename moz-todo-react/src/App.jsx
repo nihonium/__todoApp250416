@@ -42,6 +42,9 @@ function App(props) {
   }
 
   function deleteTask(id) {
+    if (!window.confirm("本当に削除しますか？")) {
+      return;
+    }
     const remainingTasks = tasks.filter((task) => id !== task.id);
     setTasks(remainingTasks);
     localStorage.setItem("tasks", JSON.stringify(remainingTasks));

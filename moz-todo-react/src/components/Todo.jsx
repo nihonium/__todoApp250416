@@ -36,13 +36,13 @@ function Todo(props) {
           現在のタスク名：{props.name}
         </label>
         <input
-            id={props.id}
-            className="todo-text"
-            type="text"
-            value={newName}
-            onBlur={handleBlur}
-            onChange={handleChange}
-            placeholder="タスクを15文字以内で入力してください"
+          id={props.id}
+          className="todo-text"
+          type="text"
+          value={newName}
+          onBlur={handleBlur}
+          onChange={handleChange}
+          placeholder="タスクを15文字以内で入力してください"
         />
         {nameError && <p>{nameError}</p>}
       </div>
