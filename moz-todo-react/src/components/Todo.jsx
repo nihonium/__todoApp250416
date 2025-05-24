@@ -60,7 +60,7 @@ function Todo(props) {
       })
       : "";
     props.editTask(props.id, newName, newSelectedDate);
-    setNewName(newName ? "" : props.name);
+    setNewName("");
     setSelectedDate(null);
     setEditing(false);
   }
