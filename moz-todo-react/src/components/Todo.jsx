@@ -16,11 +16,7 @@ function Todo(props) {
 
       // props.selectedDate が存在すれば Date オブジェクトに変換
       if (props.selectedDate) {
-        // 「〇〇年〇〇月〇〇日（〇）」という形式を Date に変換
-        const cleanedDateStr = props.selectedDate.replace(/年|月/g, "-").replace(/日.*$/, "").replace(/[^\d-]/g, "");
-
-        const [year, month, day] = cleanedDateStr.split("-").map(Number);
-        const formattedDateStr = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+        const formattedDateStr = parseJapaneseDateString(props.selectedDate);
         const parsedDate = new Date(formattedDateStr);
 
         if (!isNaN(parsedDate)) {
@@ -41,11 +37,11 @@ function Todo(props) {
     setNameError(validateForm(e.target.value));
   }
 
-  const handleBlur = (e) => {
+   function handleBlur(e) {
     const error = validateForm(e.target.value);
     setNameError(error);
     if (error) return;
-  };
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -63,6 +59,32 @@ function Todo(props) {
     setNewName("");
     setSelectedDate(null);
     setEditing(false);
+  }
+
+  // 曜日を除いて日付だけを抽出する
+  // "2025-5-31" → "2025-05-31" に補正して ISO フォーマットに近づける
+  function parseJapaneseDateString(jpDateStr) {
+    if (!jpDateStr) return null;
+
+    const cleanedDateStr = jpDateStr.replace(/年|月/g, '-').replace(/日.*$/, '').replace(/[^\d-]/g, '');
+    const [year, month, day] = cleanedDateStr.split('-').map(Number);
+    return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+  }
+
+  // 過去の日付かどうかを判定
+  // props.selectedDate が存在しない場合は、期限なしとみなす
+  function isOverdueSet() {
+    const formattedDateStr = parseJapaneseDateString(props.selectedDate);
+    const targetDate = new Date(formattedDateStr);
+    const today = new Date();
+
+    // 時間を無視して日付だけで比較するため、両方の時刻を0時にリセット
+    targetDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    // 過去の日付かどうかを判定
+    const isOverdue = targetDate < today && !props.completed && props.selectedDate;
+    return isOverdue;
   }
 
   const editingTemplate = (
@@ -112,28 +134,6 @@ function Todo(props) {
       </div>
     </form>
   );
-
-  // 期限切れ処理
-  // 過去の日付が設定されている場合、赤色で表示
-  function isOverdueSet() {
-    // 曜日を除いて日付だけを抽出する（正規表現使用）
-    const cleanedDateStr = props.selectedDate.replace(/年|月/g, '-').replace(/日.*$/, '').replace(/[^\d-]/g, '');
-
-    // "2025-5-31" → "2025-05-31" に補正して ISO フォーマットに近づける
-    const [year, month, day] = cleanedDateStr.split('-').map(Number);
-    const formattedDateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-
-    const targetDate = new Date(formattedDateStr);
-    const today = new Date();
-
-    // 時間を無視して日付だけで比較するため、両方の時刻を0時にリセット
-    targetDate.setHours(0, 0, 0, 0);
-    today.setHours(0, 0, 0, 0);
-
-    // 過去の日付かどうかを判定
-    const isOverdue = targetDate < today && !props.completed;
-    return isOverdue;
-  }
 
   const viewTemplate = (
     <div className="stack-small">
