@@ -6,7 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 function Todo(props) {
   const [isEditing, setEditing] = useState(false);
-  const [newName, setNewName] = useState("");
+  const [newName, setNewName] = useState(props.name);
   const [nameError, setNameError] = useState('');
   const [selectedDate, setSelectedDate] = useState(null);
 
@@ -20,9 +20,9 @@ function Todo(props) {
   }
 
   const handleBlur = (e) => {
-      const error = validateForm(e.target.value);
-      setNameError(error);
-      if (error) return;
+    // const error = validateForm(e.target.value);
+    // setNameError(error);
+    // if (error) return;
   };
 
   function handleSubmit(e) {
@@ -54,10 +54,10 @@ function Todo(props) {
           id={props.id}
           className="todo-text"
           type="text"
-          value={newName}
+          defaultValue={props.name}
           onBlur={handleBlur}
           onChange={handleChange}
-          placeholder="タスクを15文字以内で入力してください"
+          onBeforeInput={handleChange}
         />
         <DatePicker
           id={props.id + "new-date-input"}
