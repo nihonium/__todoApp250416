@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import validateForm from "./validateForm";
 import DatePicker, { registerLocale } from "react-datepicker";
 import { ja } from 'date-fns/locale';
@@ -6,23 +6,45 @@ import "react-datepicker/dist/react-datepicker.css";
 
 function Todo(props) {
   const [isEditing, setEditing] = useState(false);
-  const [newName, setNewName] = useState(props.name);
+  const [newName, setNewName] = useState('');
   const [nameError, setNameError] = useState('');
   const [selectedDate, setSelectedDate] = useState(null);
+
+  useEffect(() => {
+    if (isEditing) {
+      setNewName(props.name);
+
+      // props.selectedDate が存在すれば Date オブジェクトに変換
+      if (props.selectedDate) {
+        // 「〇〇年〇〇月〇〇日（〇）」という形式を Date に変換
+        const cleanedDateStr = props.selectedDate.replace(/年|月/g, "-").replace(/日.*$/, "").replace(/[^\d-]/g, "");
+
+        const [year, month, day] = cleanedDateStr.split("-").map(Number);
+        const formattedDateStr = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+        const parsedDate = new Date(formattedDateStr);
+
+        if (!isNaN(parsedDate)) {
+          setSelectedDate(parsedDate);
+        }
+      } else {
+        setSelectedDate(null);
+      }
+    }
+  }, [isEditing, props.selectedDate, props.name]);
+
+  function handleChangeDate(date) {
+    setSelectedDate(date);
+  }
 
   function handleChange(e) {
     setNewName(e.target.value);
     setNameError(validateForm(e.target.value));
   }
 
-  function handleChangeDate(date) {
-    setSelectedDate(date);
-  }
-
   const handleBlur = (e) => {
-    // const error = validateForm(e.target.value);
-    // setNameError(error);
-    // if (error) return;
+    const error = validateForm(e.target.value);
+    setNameError(error);
+    if (error) return;
   };
 
   function handleSubmit(e) {
@@ -38,7 +60,7 @@ function Todo(props) {
       })
       : "";
     props.editTask(props.id, newName, newSelectedDate);
-    setNewName("");
+    setNewName(newName ? "" : props.name);
     setSelectedDate(null);
     setEditing(false);
   }
@@ -54,10 +76,11 @@ function Todo(props) {
           id={props.id}
           className="todo-text"
           type="text"
-          defaultValue={props.name}
+          value={newName}
           onBlur={handleBlur}
           onChange={handleChange}
           onBeforeInput={handleChange}
+          placeholder="タスク名を変更できます"
         />
         <DatePicker
           id={props.id + "new-date-input"}
